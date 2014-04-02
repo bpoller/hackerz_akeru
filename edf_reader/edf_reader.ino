@@ -107,6 +107,3 @@ int tick(int position, int period){
   time = millis();
   return position; 
 }
-
-
-
