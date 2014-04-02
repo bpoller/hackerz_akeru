@@ -1,12 +1,12 @@
 #include <Arduino.h>
 
-// hcIndex - the index when a value shall be interpreted as 'Heure creuse'.
-// hc = -1 means all values are HC
-// hc = 10 means all values are HP
-// hc = 3 means values 3 and onwards are HC. Values 0, 1 and 2 are HP.
+// offPeakIndex - the index when a value shall be interpreted as 'OffPeak'.
+// offPeakIndex = 0 means all values are off peak (HC)
+// offPeakIndex = 10 means all values are peak (HP)
+// offPeakIndex = 3 means values 3 and onwards are off peak (HC). Values 0, 1 and 2 are peak HP.
 struct Reading {
-  int hcIndex;
-  int values[10];
+  short offPeakIndex ;
+  short values[10];
 };
  
 void sendData(Reading reading, int position);
