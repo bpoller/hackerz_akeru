@@ -20,10 +20,13 @@ struct Reading {
   short values[10];
 };
 
-struct Values {
+#define OFF_PEAK 0
+#define PEAK 1
+
+struct Measurement {
   int hc;
   int hp;
-  short isPeak;
+  short unit;
 };
  
 void sendData(Reading reading, int position);
