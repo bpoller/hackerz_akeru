@@ -6,7 +6,7 @@ transitionIndex indicates the index of values where a transition from off-peak t
 peak tariff or vice-versa happened. Default value is -1, meaning no transition took 
 place during the measurement intervall.
 
-Transition Direction 0 means downwards -> from peak tariff to off-peak tariff.
+tariff 0 means downwards -> from peak tariff to off-peak tariff.
                      1 means upwards   -> from off peak to peak tariff.
                      
 If transition index is -1, then transition direction indicates the current 
@@ -16,7 +16,7 @@ tariff that operates (0: off peak; 1: peak)
 
 struct Reading {
   short transitionIndex;
-  short transitionDirection;
+  short tariff;
   short values[10];
 };
 
@@ -26,7 +26,7 @@ struct Reading {
 struct Measurement {
   int hc;
   int hp;
-  short unit;
+  short tariff;
 };
  
 void sendData(Reading reading, int position);
