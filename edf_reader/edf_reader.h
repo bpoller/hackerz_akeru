@@ -15,9 +15,9 @@ tariff that operates (0: off peak; 1: peak)
 */
 
 struct Reading {
-  short transitionIndex;
-  short tariff;
-  short values[10];
+  byte transitionIndex;
+  byte tariff;
+  byte values[10];
 };
 
 #define OFF_PEAK 0
@@ -26,7 +26,7 @@ struct Reading {
 struct Measurement {
   int hc;
   int hp;
-  short tariff;
+  byte tariff;
 };
  
 void sendData(Reading reading, int position);

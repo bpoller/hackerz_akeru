@@ -6,14 +6,14 @@ Akeru_ akeru;
 
 Reading reading = {
   0, PEAK,{
-    0,0,0,0,0,0,0,0,0,0                  }
+    0,0,0,0,0,0,0,0,0,0                    }
 };
 
 Measurement measure = {
   0, 0, PEAK   };
 
 Measurement previousMeasure = {
-  0, 0,PEAK};
+  0, 0,7};
 
 int position = 0;
 
@@ -24,10 +24,15 @@ void setup() {
   akeru.begin();
   Serial.begin(1200);
   delay(1000);
-  Serial.println("Ready to go...");
+  
+  Serial.print("initializing system...");
+  updateReading();
+  Serial.println("done");
+  
   digitalWrite(13, HIGH);
   delay(3000);
   digitalWrite(13, LOW);
+  
   time = millis();
 }
 
@@ -36,7 +41,7 @@ void loop() {
   printReading();
   sendData();
   resetReading();
-  position = tick(10000);
+  position = tick(60000);
 }
 
 void resetReading()
@@ -56,6 +61,7 @@ void sendData(){
   {
     digitalWrite(13, HIGH);
     Serial.println("Sending...");
+
     akeru.send(&reading, sizeof(reading));
     Serial.println("done");
     digitalWrite(13, LOW); 
@@ -153,7 +159,7 @@ String extractString(String data, char separator, int index)
 {
   int found = 0;
   int strIndex[] = {
-    0, -1                    };
+    0, -1                      };
   int maxIndex = data.length()-1;
 
   for(int i=0; i<=maxIndex && found<=index; i++){
@@ -180,11 +186,15 @@ int countChars(const String string, char ch)
 }
 
 void copyInto(){
-  if (measure.tariff != previousMeasure.tariff)  {
-    reading.transitionIndex = position;
-    reading.tariff = measure.tariff;
+  // the system is initialized
+  if(measure.tariff != 7)
+  {
+    if (measure.tariff != previousMeasure.tariff)  {
+      reading.transitionIndex = position;
+      reading.tariff = measure.tariff;
+    }
+    reading.values[position] = measure.tariff==PEAK? measure.hp - previousMeasure.hp: measure.hc - previousMeasure.hc ;
   }
-  reading.values[position] = measure.tariff==PEAK? measure.hp - previousMeasure.hp: measure.hc - previousMeasure.hc ;
   previousMeasure = measure;
 }
 
@@ -231,6 +241,7 @@ int tick(unsigned long period){
   time = millis();
   return position; 
 }
+
 
 
 

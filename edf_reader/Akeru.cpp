@@ -74,7 +74,7 @@ bool Akeru_::send(const void* data, uint8_t len) {
 	uint8_t* bytes = (uint8_t*)data;
 
     if(!isReady()) {
-        return false;
+      //  return false;
     }
 
     // See comment in isReady()
